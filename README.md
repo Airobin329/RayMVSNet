@@ -38,4 +38,9 @@ RayMVSNet: Learning Ray-based 1D Implicit Fields for Accurate Multi-View Stereo
 ## Testing
 * python test.py
 
+## Depth Fusion
+* python fusion.py
+
 ## Evaluation
+* Download the offical evaluation tool from [DTU benchmark](http://roboimagedata.compute.dtu.dk/?page_id=36)
+* We provide our pre-computed point clouds for your convenience
