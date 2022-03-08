@@ -13,7 +13,7 @@ RayMVSNet: Learning Ray-based 1D Implicit Fields for Accurate Multi-View Stereo
 
 ## Data
 * Download the preprocessed [DTU](https://drive.google.com/file/d/1Mfx1oDoAzPbiqfseD8r02czPaNjUoUMJ/view) data and unzip it to data/dtu.
-
+``` 
 ./dtu  
       ├── Eval                 
       │
@@ -31,7 +31,7 @@ RayMVSNet: Learning Ray-based 1D Implicit Fields for Accurate Multi-View Stereo
           ├── scan1_train   
           ├── scan2_train    
           └── ... 
-          
+```     
 ## Training
 * python train.py
 
