@@ -59,14 +59,12 @@ class MVSTrainSet(Dataset):
         pair_list = list(map(lambda x: x.strip(), pair_list))
         cnt = int(pair_list[0])
         for i in range(cnt):
-        # for i in range(3):
             ref_id = int(pair_list[i*2+1])
             candidates = pair_list[i*2+2].split()
 
             nei_id = [int(candidates[2*j+1]) for j in range(self.num_views)]
             for scene_name in self.scene_names:
                 for light in self.lightings:
-                # for light in range(3,4):
                     data_pairs.append({'scene_name': scene_name,
                                        'frame_idx': [ref_id, ]+nei_id,
                                        'light': light
@@ -112,7 +110,6 @@ class MVSTrainSet(Dataset):
         return len(self.data_pairs)
 
     def __getitem__(self, idx):
-        # idx=0
         pair_dict = self.data_pairs[idx]
 
         scene_name = pair_dict['scene_name']
@@ -180,7 +177,6 @@ class MVSTestSet(Dataset):
             pair_list = open('{}/{}/pair.txt'.format(self.root_dir, scene_name), 'r').readlines()
             pair_list = list(map(lambda x: x.strip(), pair_list))
             cnt = int(pair_list[0])
-            # for i in range(5):
             for i in range(cnt):
                 ref_id = int(pair_list[i * 2 + 1])
                 candidates = pair_list[i * 2 + 2].split()
@@ -240,9 +236,6 @@ class MVSTestSet(Dataset):
             image, intr_mat, depth, mask = scale_inputs(image, depth, mask, intr_mat, max_h=self.max_h, max_w=self.max_w)
 
             images.append(image)
-            # depths.append(depth)
-            # masks.append(mask)
-
 
             proj_mat = np.zeros((2, 4, 4), np.float32)
             proj_mat[0, :4, :4] = extr_mat
