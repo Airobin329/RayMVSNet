@@ -14,80 +14,16 @@ import torch.nn as nn
 import cv2
 import torch.nn.functional as F
 from plyfile import PlyData, PlyElement
-import tensorflow as tf
 from PIL import Image
 import re
-# import lib.utils.io as io
 import torch
 import os
-# import multiprocessing as mp
 from IPython import embed
-# from itertools import repeat
 
 
 
-'''
-def parse_args():
-    parser = argparse.ArgumentParser(description="PyTorch Point-MVSNet Evaluation")
-    parser.add_argument(
-        "--cfg",
-        dest="config_file",
-        default="",
-        metavar="FILE",
-        help="path to config file",
-        type=str,
-    )
-    parser.add_argument(
-        "--cpu",
-        action='store_true',
-        default=False,
-        help="whether to only use cpu for test",
-    )
-    parser.add_argument(
-        "opts",
-        help="Modify config options using the command-line",
-        default=None,
-        nargs=argparse.REMAINDER,
-    )
 
-    args = parser.parse_args()
-    return args
-def tensor2numpy(vars):
-    if isinstance(vars, np.ndarray):
-        return vars
-    elif isinstance(vars, torch.Tensor):
-        return vars.detach().cpu().numpy().copy()
-    else:
-        raise NotImplementedError("invalid input type {} for tensor2numpy".format(type(vars)))
-def save_pfm(filename, image, scale=1):
-    file = open(filename, "wb")
-    color = None
 
-    image = np.flipud(image)
-
-    if image.dtype.name != 'float32':
-        raise Exception('Image dtype must be float32.')
-
-    if len(image.shape) == 3 and image.shape[2] == 3:  # color image
-        color = True
-    elif len(image.shape) == 2 or len(image.shape) == 3 and image.shape[2] == 1:  # greyscale
-        color = False
-    else:
-        raise Exception('Image must have H x W x 3, H x W x 1 or H x W dimensions.')
-
-    file.write('PF\n'.encode('utf-8') if color else 'Pf\n'.encode('utf-8'))
-    file.write('{} {}\n'.format(image.shape[1], image.shape[0]).encode('utf-8'))
-
-    endian = image.dtype.byteorder
-
-    if endian == '<' or endian == '=' and sys.byteorder == 'little':
-        scale = -scale
-
-    file.write(('%f\n' % scale).encode('utf-8'))
-
-    image.tofile(file)
-    file.close()
-'''
 def read_pfm(filename):
     file = open(filename, 'rb')
     color = None
@@ -299,18 +235,15 @@ def filter_depth(scan_folder, pair_folder, plyfilename):
 
 if __name__ == "__main__":
 
-    root_dir = '/home/xijunhua/workspace/UCSNet-master.sdf/experiments/base.16p.LSTM.transformer_point.detach.0307/outputs'
+    root_dir = './outputs'
 
+    testlist='./dataloader/datalist/dtu/test.txt'
 
-
-    testlist='/home/xijunhua/workspace/UCSNet-master.sdf/experiments/base.16p.LSTM.transformer_point.detach.0307/dataloader/datalist/dtu/test.txt'
-
-    testpath='/workspace/xijunhua/data/dtu/Eval'
+    testpath='./data/dtu/Eval'
 
     with open(testlist) as f:
         scans = f.readlines()
         scans = [line.rstrip() for line in scans]
-
 
     for scan in scans:
         scan_id = int(scan[4:])
