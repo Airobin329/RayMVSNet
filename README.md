@@ -12,4 +12,4 @@ RayMVSNet: Learning Ray-based 1D Implicit Fields for Accurate Multi-View Stereo
 * pip install -r requirements.txt
 
 ## Training
-* Download the preprocessed [DTU training] (https://drive.google.com/file/d/1eDjh-_bxKKnEuz5h-HXS7EDJn59clx6V/view) data from [MVSNet] (https://github.com/YoYo000/MVSNet) and unzip it to data/dtu.
+* Download the preprocessed [DTU training](https://drive.google.com/file/d/1eDjh-_bxKKnEuz5h-HXS7EDJn59clx6V/view) data from [MVSNet](https://github.com/YoYo000/MVSNet) and unzip it to data/dtu.
