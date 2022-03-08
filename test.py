@@ -21,9 +21,9 @@ cudnn.benchmark = True
 
 parser = argparse.ArgumentParser(description='Test UCSNet.')
 
-parser.add_argument('--root_path', type=str, help='path to root directory.', default='/workspace/xijunhua/data/dtu/Eval')
-parser.add_argument('--test_list', type=str, help='testing scene list.', default='/home/xijunhua/workspace/UCSNet-master.sdf/experiments/base.16p.LSTM.transformer_point.detach.0307/dataloader/datalist/dtu/test.txt')
-parser.add_argument('--save_path', type=str, help='path to save depth maps.', default='/home/xijunhua/workspace/UCSNet-master.sdf/experiments/base.16p.LSTM.transformer_point.detach.0307/outputs')
+parser.add_argument('--root_path', type=str, help='path to root directory.', default='./data/dtu/Eval')
+parser.add_argument('--test_list', type=str, help='testing scene list.', default='./dataloader/datalist/dtu/test.txt')
+parser.add_argument('--save_path', type=str, help='path to save depth maps.', default='./outputs')
 
 #test parameters
 parser.add_argument('--max_h', type=int, help='image height', default=1080)
@@ -32,7 +32,7 @@ parser.add_argument('--num_patch', type=int, help='num of patchs', default=4)
 parser.add_argument('--num_views', type=int, help='num of candidate views', default=4)
 parser.add_argument('--lamb', type=float, help='the interval coefficient.', default=1.5)
 parser.add_argument('--net_configs', type=str, help='number of samples for each stage.', default='64,32,8')
-parser.add_argument('--ckpt', type=str, help='the path for pre-trained model.', default='/home/xijunhua/workspace/UCSNet-master.sdf/experiments/base.16p.LSTM.transformer_point.detach.0307/checkpoints/model_000001.ckpt')
+parser.add_argument('--ckpt', type=str, help='the path for pre-trained model.', default='./checkpoints/model_000001.ckpt')
 
 
 args = parser.parse_args()
@@ -120,24 +120,4 @@ if __name__ == '__main__':
 
 	with torch.no_grad():
 	    main(args)
-root_dir = '/home/xijunhua/workspace/UCSNet-master.sdf/experiments/base.16p.LSTM.transformer_point.detach.0307/outputs'
 
-
-
-testlist='/home/xijunhua/workspace/UCSNet-master.sdf/experiments/base.16p.LSTM.transformer_point.detach.0307/dataloader/datalist/dtu/test.txt'
-
-testpath='/workspace/xijunhua/data/dtu/Eval'
-
-with open(testlist) as f:
-        scans = f.readlines()
-        scans = [line.rstrip() for line in scans]
-
-
-for scan in scans:
-        scan_id = int(scan[4:])
-        scan_folder = os.path.join(root_dir, scan)
-        pair_folder = os.path.join(testpath, scan)
-
-
-
-        filter_depth(scan_folder, pair_folder, os.path.join(root_dir, 'sdfnet{:0>3}_l3.ply'.format(scan_id)))
