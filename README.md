@@ -11,5 +11,31 @@ RayMVSNet: Learning Ray-based 1D Implicit Fields for Accurate Multi-View Stereo
 * torch 1.7.1+cu110
 * pip install -r requirements.txt
 
+## Data
+* Download the preprocessed [DTU](https://drive.google.com/file/d/1Mfx1oDoAzPbiqfseD8r02czPaNjUoUMJ/view) data and unzip it to data/dtu.
+
+./dtu  
+      ├── Eval                 
+      │
+      ├── Rectified                 
+      │   ├── scan1_train       
+      │   ├── scan2_train       
+      │   └── ...                
+      ├── Cameras
+      │   ├── pair.txt   
+      │   ├── train   
+      │       ├── 00000000_cam.txt   
+      │       ├── 00000001_cam.txt   
+      │       └── ...  
+      └── Depths4         
+          ├── scan1_train   
+          ├── scan2_train    
+          └── ... 
+          
 ## Training
-* Download the preprocessed [DTU training](https://drive.google.com/file/d/1eDjh-_bxKKnEuz5h-HXS7EDJn59clx6V/view) data from [MVSNet](https://github.com/YoYo000/MVSNet) and unzip it to data/dtu.
+* python train.py
+
+## Testing
+* python test.py
+
+## Evaluation
