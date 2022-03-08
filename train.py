@@ -23,9 +23,9 @@ is_distributed = num_gpus > 1
 
 
 parser = argparse.ArgumentParser(description='Deep stereo using adaptive cost volume.')
-parser.add_argument('--root_path', type=str, help='path to root directory.', default='/workspace/xijunhua/data/dtu')
-parser.add_argument('--train_list', type=str, help='train scene list.', default='/home/xijunhua/workspace/UCSNet-master.sdf/experiments/base.16p.LSTM.transformer_point.detach.0307/dataloader/datalist/dtu/train.txt')
-parser.add_argument('--save_path', type=str, help='path to save checkpoints.', default='/home/xijunhua/workspace/UCSNet-master.sdf/experiments/base.16p.LSTM.transformer_point.detach.0307/checkpoints')
+parser.add_argument('--root_path', type=str, help='path to root directory.', default='./data/dtu')
+parser.add_argument('--train_list', type=str, help='train scene list.', default='./dataloader/datalist/dtu/train.txt')
+parser.add_argument('--save_path', type=str, help='path to save checkpoints.', default='./checkpoints')
 
 parser.add_argument('--epochs', type=int, default=60)
 parser.add_argument('--lr', type=float, default=0.0016)
@@ -219,11 +219,6 @@ def multi_stage_loss(outputs, labels, masks, patch_idx,weights):
 if __name__ == '__main__':
 
 	model, optimizer, train_loader = distribute_model(args)
-
-	data_dict = torch.load('/workspace/xijunhua/UCSNet-master.sdf/model_000004.ckpt')
-	data_dict['model']=OrderedDict([('module.'+key,value) for key, value in data_dict['model'].items()]) 
-	model.load_state_dict(data_dict['model'], strict=False)
-
 	on_main = (not is_distributed) or (dist.get_rank() == 0)
 
 	if on_main:
