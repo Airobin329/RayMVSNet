@@ -545,7 +545,7 @@ class CoarseMVSNet(nn.Module):
 
         self.cost_regularization = cost_regularization
 
-    def forward(self,depth, cur_depth, exp_var,proj_matrices, depth_values,features,img,outputs):
+    def forward_depth(self,depth, cur_depth, exp_var,proj_matrices, depth_values,features,img,outputs):
 
         for stage_idx in range(2):
           
@@ -585,7 +585,9 @@ class CoarseMVSNet(nn.Module):
 
                 outputs["stage{}".format(stage_idx + 1)] = outputs_stage
         return outputs
-
+    def forward_epipolar(self,volume_variance):
+        prob_volume_pre=self.cost_regularization[2](volume_variance)
+        return prob_volume_pre
 
 def compute_depth(feats, proj_mats, depth_samps, cost_reg, lamb, is_training=False):
  
