@@ -116,12 +116,13 @@ class RayMVSNet(nn.Module):
 
         self.feature_extraction = FeatExtNet(base_channels=feat_ext_ch)
 
-        self.cost_regularization = nn.ModuleList([CostRegNet(in_channels=self.feature_extraction.out_channels[i],
-                                                             base_channels=self.base_chs[i]) for i in range(self.num_stage)])
-
         self.lstm = RelationEncoder_LSTM(26,50, use_cuda_wyl = True)
-        self.coarse=CoarseMVSNet(ds_ratio=self.ds_ratio, stage_configs=self.stage_configs,cost_regularization=self.cost_regularization,lamb=self.lamb)
-
+        
+        self.coarse=CoarseMVSNet(ds_ratio=self.ds_ratio, 
+                                stage_configs=self.stage_configs,
+                                cost_regularization=nn.ModuleList([CostRegNet(in_channels=self.feature_extraction.out_channels[i],
+                                                             base_channels=self.base_chs[i]) for i in range(self.num_stage)]),
+                                lamb=self.lamb)
         d_model = 8
         self.tr1 = TransformerLayer(d_model, 1)
         self.tr2 = TransformerLayer(d_model, 1)
@@ -143,7 +144,7 @@ class RayMVSNet(nn.Module):
 
                 outputs = {}
                 depth, cur_depth, exp_var = None, None, None
-                outputs=self.coarse(depth, cur_depth, exp_var,proj_matrices, depth_values,features,img,outputs)
+                outputs=self.coarse.forward_depth(depth, cur_depth, exp_var,proj_matrices, depth_values,features,img,outputs)
 
 
                 features_stage = [feat["stage3"] for feat in features]
@@ -167,7 +168,7 @@ class RayMVSNet(nn.Module):
                 outputs_stage = epipolar_feature(self, features_stage, proj_matrices_stage, patch_idx,
                                             depth_samps=depth_range_samples,
                                             depth_samps_2d=depth_range_samples_2d,
-                                            cost_reg=self.cost_regularization[2],
+                                            cost_reg=self.coarse.forward_epipolar,
                                             is_training=self.training)
                 
                 feature_2d = outputs_stage['feature_2d']
