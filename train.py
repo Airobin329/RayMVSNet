@@ -72,19 +72,13 @@ def main(args, model:nn.Module, optimizer, train_loader):
 		model.train()
 		for batch_idx, sample in enumerate(train_loader):
 			for patch_idx in range(args.num_patch):
-
 				tic = time.time()
-
 				sample_cuda = dict2cuda(sample)
-
 				optimizer.zero_grad()
-
 				outputs = model(sample_cuda["imgs"], sample_cuda["proj_matrices"], sample_cuda["depth_values"], sample_cuda["depth_labels"]['stage3'], patch_idx)
-
 				loss = multi_stage_loss(outputs, sample_cuda["depth_labels"], sample_cuda["masks"], patch_idx, loss_weights)
 				del outputs,sample_cuda
 				torch.cuda.empty_cache()
-
 				if is_distributed and args.sync_bn:
 					with amp.scale_loss(loss, optimizer) as scaled_loss:
 						scaled_loss.backward()
@@ -97,24 +91,19 @@ def main(args, model:nn.Module, optimizer, train_loader):
 			log_index = (len(train_loader)) * ep + batch_idx
 			if log_index % args.log_freq == 0:
 
-
 				if on_main:
-
-
 					print("Epoch {}/{}, Iter {}/{}, lr {:.6f}, train loss {:.2f},  time = {:.2f}".format(
 						ep+1, args.epochs, batch_idx+1, len(train_loader),
 						optimizer.param_groups[0]["lr"], loss,
 						time.time() - tic))
-
-
 			torch.cuda.empty_cache()
 			gc.collect()
 
-			if on_main and batch_idx % args.save_freq == 0:
-				torch.save({"epoch": ep+1,
-							"model": model.module.state_dict(),
-							"optimizer": optimizer.state_dict()},
-							"{}/model_{:06d}.ckpt".format(args.save_path, ep+1))
+		if on_main and batch_idx % args.save_freq == 0:
+			torch.save({"epoch": ep+1,
+				"model": model.module.state_dict(),
+				"optimizer": optimizer.state_dict()},
+				"{}/model_{:06d}.ckpt".format(args.save_path, ep+1))
 
 
 def distribute_model(args):
