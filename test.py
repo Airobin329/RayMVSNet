@@ -29,7 +29,7 @@ parser.add_argument('--save_path', type=str, help='path to save depth maps.', de
 parser.add_argument('--max_h', type=int, help='image height', default=1080)
 parser.add_argument('--max_w', type=int, help='image width', default=1920)
 parser.add_argument('--num_patch', type=int, help='num of patchs', default=4)
-parser.add_argument('--num_views', type=int, help='num of candidate views', default=4)
+parser.add_argument('--num_views', type=int, help='num of candidate views', default=3)
 parser.add_argument('--lamb', type=float, help='the interval coefficient.', default=1.5)
 parser.add_argument('--net_configs', type=str, help='number of samples for each stage.', default='64,32,8')
 parser.add_argument('--ckpt', type=str, help='the path for pre-trained model.', default='./checkpoints/model.ckpt')
