@@ -250,5 +250,5 @@ if __name__ == "__main__":
         scan_folder = os.path.join(root_dir, scan)
         pair_folder = os.path.join(testpath, scan)
 
-        filter_depth(scan_folder, pair_folder, os.path.join(root_dir, 'sdfnet{:0>3}_l32.ply'.format(scan_id)))
+        filter_depth(scan_folder, pair_folder, os.path.join(root_dir, 'sdfnet{:0>3}_l3.ply'.format(scan_id)))
 
