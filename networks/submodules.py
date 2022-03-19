@@ -70,14 +70,12 @@ def uncertainty_aware_samples(cur_depth, exp_var, ndepth, device, dtype, shape):
 
 def samples(cur_depth,exp_var,  ndepth):
 
+        a=torch.Tensor(1,1,1056,1440).uniform_(-1,1).cuda()
+        cur_depth=cur_depth+a*0.6
+        
         low_bound = -torch.min(cur_depth, exp_var)
-        # low_bound = cur_depth-10
         high_bound = exp_var
-        # high_bound = cur_depth+10
 
-
-        # assert exp_var.min() >= 0, exp_var.min()
-        assert ndepth > 1
 
         step = (high_bound - low_bound) / (float(ndepth) - 1)
         new_samps = []
