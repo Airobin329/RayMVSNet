@@ -44,7 +44,6 @@ def homo_warping(src_fea, src_proj, ref_proj, depth_values):
 
 def uncertainty_aware_samples(cur_depth, exp_var, ndepth, device, dtype, shape):
     if cur_depth.dim() == 2:
-        #must be the first stage
         cur_depth_min = cur_depth[:, 0]  # (B,)
         cur_depth_max = cur_depth[:, -1]
         new_interval = (cur_depth_max - cur_depth_min) / (ndepth - 1)  # (B, )
@@ -54,8 +53,6 @@ def uncertainty_aware_samples(cur_depth, exp_var, ndepth, device, dtype, shape):
     else:
         low_bound = -torch.min(cur_depth, exp_var)
         high_bound = exp_var
-
-        # assert exp_var.min() >= 0, exp_var.min()
         assert ndepth > 1
 
         step = (high_bound - low_bound) / (float(ndepth) - 1)
@@ -64,7 +61,6 @@ def uncertainty_aware_samples(cur_depth, exp_var, ndepth, device, dtype, shape):
             new_samps.append(cur_depth + low_bound + step * i + eps)
 
         depth_range_samples = torch.cat(new_samps, 1)
-        # assert depth_range_samples.min() >= 0, depth_range_samples.min()
     return depth_range_samples
 
 
@@ -101,7 +97,6 @@ def samples(cur_depth,exp_var,  ndepth):
 
 def depth_regression(p, depth_values):
     if depth_values.dim() <= 2:
-        # print("regression dim <= 2")
         depth_values = depth_values.view(*depth_values.shape, 1, 1)
     depth = torch.sum(p * depth_values, 1)
     return depth
@@ -394,44 +389,6 @@ class RelationEncoder_LSTM(nn.Module):
         return last_hidden, sdf_output
 
 
-class RelationEncoder_GRU(nn.Module):
-    # def __init__(self, relation_embedding_dim, rnn_hidden_dim, rel_encoder_method, entityencoder_att_method, use_cuda_wyl):
-    def __init__(self, relation_embedding_dim, rnn_hidden_dim, use_cuda_wyl):
-        super(RelationEncoder_GRU, self).__init__()
-
-        self.rnn_hidden_dim = rnn_hidden_dim
-        self.use_cuda_wyl = use_cuda_wyl
-        # self.rel_encoder_method = rel_encoder_method
-        # self.entityencoder_att_method = entityencoder_att_method
-        self.rnn = nn.GRU(relation_embedding_dim, rnn_hidden_dim, batch_first=True)
-        self.sdf = nn.Conv1d(50, 2, 1, bias=False)
-        
-
-
-    def init_hidden(self, batch_size):
-        # Hidden state axes semantics are (seq_len, batch, rnn_hidden_dim), even when LSTM is set to batch first
-        hidden_state = torch.FloatTensor(1, batch_size, self.rnn_hidden_dim)
-        hidden_state.copy_(torch.zeros(1, batch_size, self.rnn_hidden_dim))
-        if self.use_cuda_wyl == True:
-            return (hidden_state.cuda())
-        else:
-            return (hidden_state)
-
-    def forward(self, relation_embeds):
-        # relation_embeds: [num_ent_pairs x num_paths, num_steps, num_feats]
-        reshaped_batch_size, num_steps, num_feats = relation_embeds.shape
-        h= self.init_hidden(reshaped_batch_size)
-
-        self.rnn.flatten_parameters()
-        output, last_hidden = self.rnn(relation_embeds,h)
-        # last_hidden: [1, num_ent_pairs x num_paths, rnn_hidden_dim]
-        last_hidden = last_hidden.squeeze(dim=0)
-        output=output.transpose(1,2)
-        sdf_output = self.sdf(output)
-        return last_hidden, sdf_output
-
-
-
 
 class SharedMLP(nn.ModuleList):
     def __init__(self,
@@ -460,7 +417,6 @@ class SharedMLP(nn.ModuleList):
             raise ValueError()
 
         for ind, out_channels in enumerate(mlp_channels):
-            # bn=False
             self.append(mlp_module(in_channels, out_channels, 1,
                                    relu=True, bn=bn, bn_momentum=bn_momentum))
             in_channels = out_channels
