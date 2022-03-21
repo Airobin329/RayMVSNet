@@ -83,7 +83,7 @@ def main(args):
 
             tim_cnt += (end_time - start_time)
 
-            print('Finished {}_{}/{}, time: {:.2f}s'.format(batch_idx+1, patch_idx, len(test_loader), end_time-start_time))
+            print('Finished {}_{}/{}, time: {:.2f}s'.format(batch_idx+1, patch_idx, len(test_loader)))
             if patch_idx==0:
                 depth_sdf[:,0:h//2,0:w//2]=outputs['stage_ray']["final_depth"]
             if patch_idx==1:
