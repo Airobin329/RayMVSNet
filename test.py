@@ -11,7 +11,7 @@ from networks.raymvsnet import RayMVSNet
 from utils.utils import dict2cuda, dict2numpy, mkdir_p, save_cameras, write_pfm
 from fusion import filter_depth
 import numpy as np
-import argparse, os, time, gc
+import argparse, os, gc
 from PIL import Image
 import os.path as osp
 from collections import *
@@ -59,8 +59,6 @@ def main(args):
     model.cuda()
     model.eval()
 
-    tim_cnt = 0
-
     for batch_idx, sample in enumerate(test_loader):
         scene_name = sample["scene_name"][0]
         frame_idx = sample["frame_idx"][0][0]
@@ -73,15 +71,11 @@ def main(args):
 
 
             sample_cuda = dict2cuda(sample)
-            start_time = time.time()
 
-            outputs = model(sample_cuda["imgs"], sample_cuda["proj_matrices"], sample_cuda["depth_values"], sample_cuda["depth"], patch_idx)
-            end_time = time.time()
-
+            outputs = model(sample_cuda["imgs"], sample_cuda["proj_matrices"], sample_cuda["depth_values"], sample_cuda["depth"], patch_idx)       
             outputs = dict2numpy(outputs)
             del sample_cuda
 
-            tim_cnt += (end_time - start_time)
 
             print('Finished {}_{}/{}, time: {:.2f}s'.format(batch_idx+1, patch_idx, len(test_loader)))
             if patch_idx==0:
