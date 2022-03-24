@@ -42,10 +42,10 @@ National University of Defense Technology
 ## Testing
 * python test.py
 
+You can test with the pretrained model:  ./model.ckpt
+
 ## Depth Fusion
 * python fusion.py
-
-You can test with the pretrained model: ./model.ckpt
 
 ## Evaluation
 * Download the offical evaluation tool from [DTU benchmark](http://roboimagedata.compute.dtu.dk/?page_id=36)
