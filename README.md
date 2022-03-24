@@ -44,6 +44,7 @@ National University of Defense Technology
 
 ## Depth Fusion
 * python fusion.py
+
 You can test with the pretrained model: ./model.ckpt
 
 ## Evaluation
