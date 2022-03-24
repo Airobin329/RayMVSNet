@@ -1,6 +1,9 @@
 RayMVSNet
 ===
 RayMVSNet: Learning Ray-based 1D Implicit Fields for Accurate Multi-View Stereo
+Junhua Xi* Yifei Shi* Yijie Wang Yulan Guo Kai Xu†
+National University of Defense Technology
+
 ---
 
 # How to use
@@ -15,8 +18,6 @@ RayMVSNet: Learning Ray-based 1D Implicit Fields for Accurate Multi-View Stereo
 * Download the preprocessed [DTU](https://drive.google.com/file/d/1Mfx1oDoAzPbiqfseD8r02czPaNjUoUMJ/view) data and unzip it to data/dtu.
 ``` 
 ./dtu  
-      ├── Eval                 
-      │
       ├── Rectified                 
       │   ├── scan1_train       
       │   ├── scan2_train       
@@ -27,7 +28,7 @@ RayMVSNet: Learning Ray-based 1D Implicit Fields for Accurate Multi-View Stereo
       │       ├── 00000000_cam.txt   
       │       ├── 00000001_cam.txt   
       │       └── ...  
-      └── Depths4         
+      └── Depths         
           ├── scan1_train   
           ├── scan2_train    
           └── ... 
