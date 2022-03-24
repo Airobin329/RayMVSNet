@@ -36,6 +36,7 @@ National University of Defense Technology
           └── ... 
 ```     
 ## Training
+* Train the network
 * python train.py
 
 ## Testing
@@ -43,6 +44,7 @@ National University of Defense Technology
 
 ## Depth Fusion
 * python fusion.py
+You can test with the pretrained model: ./model.ckpt
 
 ## Evaluation
 * Download the offical evaluation tool from [DTU benchmark](http://roboimagedata.compute.dtu.dk/?page_id=36)
