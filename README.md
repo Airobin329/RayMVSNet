@@ -1,7 +1,9 @@
 RayMVSNet
 ===
 RayMVSNet: Learning Ray-based 1D Implicit Fields for Accurate Multi-View Stereo
+
 Junhua Xi* Yifei Shi* Yijie Wang Yulan Guo Kai Xu†
+
 National University of Defense Technology
 
 ---
