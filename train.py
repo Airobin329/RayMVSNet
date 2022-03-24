@@ -28,7 +28,7 @@ parser.add_argument('--train_list', type=str, help='train scene list.', default=
 parser.add_argument('--save_path', type=str, help='path to save checkpoints.', default='./checkpoints')
 
 parser.add_argument('--epochs', type=int, default=60)
-parser.add_argument('--lr', type=float, default=0.0016)
+parser.add_argument('--lr', type=float, default=0.0005)
 parser.add_argument('--lr_idx', type=str, default="10,12,14:0.5")
 
 parser.add_argument('--loss_weights', type=str, default="0.5,1,2,4")
