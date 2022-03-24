@@ -45,6 +45,8 @@ National University of Defense Technology
 You can test with the pretrained model:  ./model.ckpt
 
 ## Depth Fusion
+
+Testing process generates per-view depth map. We need to apply depth fusion fusion.py to get the complete point cloud. Please refer to MVSNet for more details.
 * python fusion.py
 
 ## Evaluation
