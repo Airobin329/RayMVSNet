@@ -31,7 +31,7 @@ parser.add_argument('--epochs', type=int, default=60)
 parser.add_argument('--lr', type=float, default=0.0005)
 parser.add_argument('--lr_idx', type=str, default="10,12,14:0.5")
 
-parser.add_argument('--loss_weights', type=str, default="0.5,1,2,4")
+parser.add_argument('--loss_weights', type=str, default="0.1,0.2,0.8,0.1")
 parser.add_argument('--wd', type=float, default=0.0, help='weight decay')
 parser.add_argument('--batch_size', type=int, default=1)
 
